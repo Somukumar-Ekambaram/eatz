@@ -21,6 +21,8 @@ public class ApiResponse<T> {
 
     public boolean success;
 
+    public String code;
+
     public String message;
 
     public T data;

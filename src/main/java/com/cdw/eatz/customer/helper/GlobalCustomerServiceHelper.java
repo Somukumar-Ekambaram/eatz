@@ -42,25 +42,18 @@ public class GlobalCustomerServiceHelper {
 
         boolean isExistByEmail = false;
         boolean isExistByPhoneNumber = false;
-        try {
-            if (email != null) {
-                isExistByEmail = customerRepository.existsByEmailIgnoreCaseOrPhoneNumber(email, null);
-            }
+        if (email != null) {
+            isExistByEmail = customerRepository.existsByEmailIgnoreCaseOrPhoneNumber(email, null);
+        }
 
-            if (phoneNumber != null) {
-                isExistByPhoneNumber = customerRepository.existsByEmailIgnoreCaseOrPhoneNumber(null, phoneNumber);
-            }
+        if (phoneNumber != null) {
+            isExistByPhoneNumber = customerRepository.existsByEmailIgnoreCaseOrPhoneNumber(null, phoneNumber);
+        }
 
-            if (isExistByEmail) {
-                throw new CustomerExistException(CUSTOMER_ALREADY_EXIST_BY_EMAIL_MESSAGE);
-            } else if (isExistByPhoneNumber) {
-                throw new CustomerExistException(CUSTOMER_ALREADY_EXIST_BY_PHONE_NUMBER_MESSAGE);
-            }
-
-        } catch (CustomerExistException customerExistException) {
-            throw customerExistException;
-        } catch (Exception exception) {
-            throw exception;
+        if (isExistByEmail) {
+            throw new CustomerExistException(CUSTOMER_ALREADY_EXIST_BY_EMAIL_MESSAGE);
+        } else if (isExistByPhoneNumber) {
+            throw new CustomerExistException(CUSTOMER_ALREADY_EXIST_BY_PHONE_NUMBER_MESSAGE);
         }
     }
 }

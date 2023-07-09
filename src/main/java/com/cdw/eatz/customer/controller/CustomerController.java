@@ -16,7 +16,9 @@ import org.springframework.web.bind.annotation.RestController;
 import static com.cdw.eatz.common.constant.EndPointConstant.CUSTOMER;
 import static com.cdw.eatz.common.constant.EndPointConstant.CUSTOMER_LOGIN;
 import static com.cdw.eatz.common.constant.ResponseMessageConstant.CUSTOMER_LOGGED_IN_SUCCESS;
+import static com.cdw.eatz.common.constant.ResponseMessageConstant.CUSTOMER_LOGGED_IN_SUCCESS_CODE;
 import static com.cdw.eatz.common.constant.ResponseMessageConstant.SAVE_CUSTOMER_MESSAGE;
+import static com.cdw.eatz.common.constant.ResponseMessageConstant.SAVE_CUSTOMER_MESSAGE_CODE;
 
 /**
  * A Spring REST Controller that performs customer operations.
@@ -35,9 +37,9 @@ public class CustomerController {
     /**
      * Method to call save customer operations.
      *
-     * @param customer {Customer}
-     * @throws Exception
-     * @return
+     * @param customer { Customer }
+     * @throws Exception {*}
+     * @return {*}
      */
     @PostMapping()
     @ResponseStatus(HttpStatus.CREATED)
@@ -45,9 +47,7 @@ public class CustomerController {
 
         SaveOrLoginCustomerResponse saveCustomer = this.customerService.saveCustomer(customer);
 
-        ApiResponse<SaveOrLoginCustomerResponse> apiResponse = new ApiResponse<SaveOrLoginCustomerResponse>(true, SAVE_CUSTOMER_MESSAGE, saveCustomer);
-
-        return apiResponse;
+        return new ApiResponse<>(true, SAVE_CUSTOMER_MESSAGE_CODE, SAVE_CUSTOMER_MESSAGE, saveCustomer);
     }
 
     @PostMapping(value = CUSTOMER_LOGIN)
@@ -56,9 +56,7 @@ public class CustomerController {
 
         SaveOrLoginCustomerResponse loggedInCustomer = this.customerService.loginCustomer(email, password);
 
-        ApiResponse<SaveOrLoginCustomerResponse> apiResponse = new ApiResponse<>(true, CUSTOMER_LOGGED_IN_SUCCESS, loggedInCustomer);
-
-        return apiResponse;
+        return new ApiResponse<>(true, CUSTOMER_LOGGED_IN_SUCCESS_CODE, CUSTOMER_LOGGED_IN_SUCCESS,loggedInCustomer);
     }
 
 }

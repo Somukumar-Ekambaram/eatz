@@ -11,6 +11,12 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.ResponseStatus;
 
+import static com.cdw.eatz.common.constant.ResponseMessageConstant.CUSTOMER_ALREADY_EXIST_MESSAGE_CODE;
+import static com.cdw.eatz.common.constant.ResponseMessageConstant.CUSTOMER_AUTHENTICATION_FAILED_CODE;
+import static com.cdw.eatz.common.constant.ResponseMessageConstant.CUSTOMER_NOT_FOUND_CODE;
+import static com.cdw.eatz.common.constant.ResponseMessageConstant.SOMETHING_WENT_WRONG_CODE;
+import static com.cdw.eatz.common.constant.ResponseMessageConstant.UNAUTHORIZED_USER_CODE;
+
 /**
  * GlobalExceptionHandlerUtil.java
  * A Java Class that Handles global Exceptions
@@ -33,9 +39,7 @@ public class GlobalExceptionHandlerUtil {
     @ResponseStatus(code = HttpStatus.INTERNAL_SERVER_ERROR)
     private ApiResponse<String> handleCommonException(Exception exception) {
 
-        ApiResponse<String> apiResponse = new ApiResponse<>(false, exception.getMessage(), null);
-
-        return apiResponse;
+        return new ApiResponse<>(false, SOMETHING_WENT_WRONG_CODE, exception.getMessage(), null);
     }
 
     /**
@@ -49,9 +53,7 @@ public class GlobalExceptionHandlerUtil {
     @ResponseStatus(code = HttpStatus.UNAUTHORIZED)
     private ApiResponse<String> handleAccessDeniedException(AccessDeniedException accessDeniedException) {
 
-        ApiResponse<String> apiResponse = new ApiResponse<>(false, accessDeniedException.getMessage(), null);
-
-        return apiResponse;
+        return new ApiResponse<>(false, UNAUTHORIZED_USER_CODE, accessDeniedException.getMessage(), null);
     }
 
     /**
@@ -65,9 +67,7 @@ public class GlobalExceptionHandlerUtil {
     @ResponseStatus(code = HttpStatus.CONFLICT)
     private ApiResponse<String> handleCustomerExistException(CustomerExistException customerExistException) {
 
-        ApiResponse<String> apiResponse = new ApiResponse<>(false, customerExistException.getMessage(), null);
-
-        return apiResponse;
+        return new ApiResponse<>(false, CUSTOMER_ALREADY_EXIST_MESSAGE_CODE, customerExistException.getMessage(), null);
     }
 
     /**
@@ -81,9 +81,7 @@ public class GlobalExceptionHandlerUtil {
     @ResponseStatus(code = HttpStatus.NOT_FOUND)
     private ApiResponse<String> handleCustomerNotFoundException(CustomerNotFoundException customerNotFoundException) {
 
-        ApiResponse<String> apiResponse = new ApiResponse<>(false, customerNotFoundException.getMessage(), null);
-
-        return apiResponse;
+        return new ApiResponse<>(false, CUSTOMER_NOT_FOUND_CODE, customerNotFoundException.getMessage(), null);
     }
 
     /**
@@ -97,8 +95,6 @@ public class GlobalExceptionHandlerUtil {
     @ResponseStatus(HttpStatus.UNAUTHORIZED)
     private ApiResponse<String> handleCustomerAuthenticationFailedException(CustomerAuthenticationFailedException customerAuthenticationFailedException) {
 
-        ApiResponse<String> apiResponse = new ApiResponse<>(false, customerAuthenticationFailedException.getMessage(), null);
-
-        return apiResponse;
+        return new ApiResponse<>(false, CUSTOMER_AUTHENTICATION_FAILED_CODE, customerAuthenticationFailedException.getMessage(), null);
     }
 }

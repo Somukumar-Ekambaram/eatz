@@ -16,7 +16,7 @@ spring:
   jpa:
     hibernate:
       ddl-auto: update
-      naming_strategy: org.hibernate.cfg.EJB3NamingStrategy
+      naming_strategy: org.hibernate.cfg.ImprovedNamingStrategy
       properties:
         hibernate.cache.use_second_level_cache: true
         hibernate.cache.use_query_cache: false
@@ -24,3 +24,8 @@ spring:
         hibernate.cache.region.factory_class: org.hibernate.cache.internal.NoCachingRegionFactory
     data:
       jpa.repositories.enabled: true
+    generate-ddl: true
+    show-sql: true
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.MySQL5Dialect

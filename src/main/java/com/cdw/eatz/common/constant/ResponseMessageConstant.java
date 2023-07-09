@@ -10,6 +10,10 @@ package com.cdw.eatz.common.constant;
  */
 public class ResponseMessageConstant {
 
+    /* Common Errors */
+
+    public static final String SOMETHING_WENT_WRONG_CODE = "INTERNAL_ERROR";
+
     /* Customer Controller */
     public static final String SAVE_CUSTOMER_MESSAGE = "Customer Saved Successfully";
 
@@ -24,5 +28,19 @@ public class ResponseMessageConstant {
     public static final String CUSTOMER_AUTHENTICATION_FAILED = "Customer Email or Password is Invalid";
 
     public static final String CUSTOMER_LOGGED_IN_SUCCESS = "Customer Logged-in Successfully";
+
+    // Response Codes.
+
+    public static final String SAVE_CUSTOMER_MESSAGE_CODE = "CUSTOMER_SAVED";
+
+    public static final String CUSTOMER_ALREADY_EXIST_MESSAGE_CODE = "CUSTOMER_ALREADY_EXIST";
+
+    public static final String UNAUTHORIZED_USER_CODE = "INVALID_CUSTOMER";
+
+    public static final String CUSTOMER_NOT_FOUND_CODE = "CUSTOMER_NOT_FOUND";
+
+    public static final String CUSTOMER_AUTHENTICATION_FAILED_CODE = "AUTHENTICATION_FAILED";
+
+    public static final String CUSTOMER_LOGGED_IN_SUCCESS_CODE = "CUSTOMER_LOGGED_IN";
 
 }

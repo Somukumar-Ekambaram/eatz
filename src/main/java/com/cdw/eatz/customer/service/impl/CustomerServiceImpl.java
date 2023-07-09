@@ -28,7 +28,7 @@ import static com.cdw.eatz.common.constant.ResponseMessageConstant.CUSTOMER_NOT_
 @NoArgsConstructor
 public class CustomerServiceImpl extends GlobalCustomerServiceHelper implements CustomerService {
 
-    private static CustomerServiceImpl customerService = new CustomerServiceImpl();
+    private static final CustomerServiceImpl customerServiceHelper = new CustomerServiceImpl();
 
     private CustomerRepository customerRepository;
     private JsonWebTokenUtil jsonWebTokenUtil;
@@ -44,14 +44,14 @@ public class CustomerServiceImpl extends GlobalCustomerServiceHelper implements 
     /**
      * Method to save customer
      *
-     * @param customer
-     * @throws Exception
+     * @param customer { Customer }
+     * @throws Exception {*}
      * @return { Customer }
      */
     @Override
     public SaveOrLoginCustomerResponse saveCustomer(Customer customer) throws Exception {
 
-        String username = customerService.generateUsername(customer.getEmail());
+        String username = customerServiceHelper.generateUsername(customer.getEmail());
         customer.setUsername(username);
         customer.setProfileVerified(false);
 
@@ -90,29 +90,23 @@ public class CustomerServiceImpl extends GlobalCustomerServiceHelper implements 
     @Override
     public SaveOrLoginCustomerResponse loginCustomer(String email, String password) {
         SaveOrLoginCustomerResponse loginCustomerResponse = new SaveOrLoginCustomerResponse();
-        try {
-            boolean isCustomerExist = customerRepository.existsByEmailIgnoreCaseOrPhoneNumber(email, null);
-            if (isCustomerExist) {
-                if (email != null && password != null) {
-                    Customer customer = customerRepository.findOneByEmailIgnoreCaseAndPassword(email, password);
-                    if(customer != null) {
-                        // generate JWT
-                        String token = jsonWebTokenUtil.generateJsonWebToken(customer);
-                        loginCustomerResponse.setCustomerId(customer.getCustomerId());
-                        loginCustomerResponse.setUsername(customer.getUsername());
-                        loginCustomerResponse.setEmail(customer.getEmail());
-                        loginCustomerResponse.setBearerToken(token);
-                    } else {
-                        throw new CustomerAuthenticationFailedException(CUSTOMER_AUTHENTICATION_FAILED);
-                    }
+        boolean isCustomerExist = customerRepository.existsByEmailIgnoreCaseOrPhoneNumber(email, null);
+        if (isCustomerExist) {
+            if (email != null && password != null) {
+                Customer customer = customerRepository.findOneByEmailIgnoreCaseAndPassword(email, password);
+                if(customer != null) {
+                    // generate JWT
+                    String token = jsonWebTokenUtil.generateJsonWebToken(customer);
+                    loginCustomerResponse.setCustomerId(customer.getCustomerId());
+                    loginCustomerResponse.setUsername(customer.getUsername());
+                    loginCustomerResponse.setEmail(customer.getEmail());
+                    loginCustomerResponse.setBearerToken(token);
+                } else {
+                    throw new CustomerAuthenticationFailedException(CUSTOMER_AUTHENTICATION_FAILED);
                 }
-            } else {
-                throw new CustomerNotFoundException(CUSTOMER_NOT_FOUND);
             }
-        } catch (CustomerNotFoundException customerNotFoundException) {
-            throw customerNotFoundException;
-        } catch (CustomerAuthenticationFailedException customerAuthenticationFailedException) {
-            throw customerAuthenticationFailedException;
+        } else {
+            throw new CustomerNotFoundException(CUSTOMER_NOT_FOUND);
         }
         return loginCustomerResponse;
     }

@@ -53,7 +53,7 @@ public class CustomerAddress {
     @Column(name = "country")
     private String country;
 
-    @Column(name = "zipcode", length = 6)
+    @Column(name = "zipcode", columnDefinition = "BIGINT(6)")
     private Long zipcode;
 
     @Column(name = "created_at", updatable = false)
